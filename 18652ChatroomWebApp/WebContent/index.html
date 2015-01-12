@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>18652 Chatroom</title>
+<script type="text/javascript">
+	var websocket = new WebSocket("ws://localhost:8080/18652ChatroomWebApp/chatroomServer");
+	websocket.onmessage = function processMessage(message) {
+		var jsonData = JSON.parse(message.data);
+		if (jsonData.message != null) {
+			messageTextArea.value += jsonData.message + "\n";
+		}	
+	}
+	function sendMessage() {
+		websocket.send(messageText.value);
+		messageText.value = "";
+	}
+	
+</script>
+</head>
+<body>
+	<textarea id="messageTextArea" readonly="readonly" rows="10" cols="40"></textarea><br>
+	<input type="text" id="messageText" size="45" />
+	<input type="button" value="Send" onclick="sendMessage();" />
+</body>
+</html>
